@@ -69,7 +69,7 @@ public class GnomeSort {
      * @param nums
      */
     public static void bubbleSortSkipSorted(int[] nums) {
-        int lastSwapIndex = -1;
+        int lastSwapIndex;
         for (int i = nums.length - 1; i > 0; ) {
             lastSwapIndex = 0;
             for (int j = 0; j < i; j++) {
