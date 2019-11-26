@@ -1,3 +1,5 @@
+package leetcode.dynamicprograming;
+
 /**
  * @description: 最长公共子序列
  * @author: zww

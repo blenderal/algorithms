@@ -1,3 +1,5 @@
+package leetcode.divideandconquer;
+
 /**
  * @description: 求数组中最大的两个数
  * @author: zww
