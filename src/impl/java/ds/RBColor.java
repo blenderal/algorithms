@@ -1,4 +1,4 @@
-package impl.tree;
+package impl.java.ds;
 
 /**
  * @description: 红黑树颜色

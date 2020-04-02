@@ -1,7 +1,5 @@
-package impl.list;
+package impl.java.ds;
 
-import impl.Iterator;
-import impl.Position;
 
 import java.util.NoSuchElementException;
 

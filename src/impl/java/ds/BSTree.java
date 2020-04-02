@@ -1,8 +1,6 @@
-package impl.tree;
+package impl.java.ds;
 
-import impl.*;
-import impl.list.LinkedList;
-import impl.list.List;
+
 
 /**
  * @description: 基于链表式BST实现的词典结构

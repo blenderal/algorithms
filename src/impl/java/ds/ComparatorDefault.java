@@ -1,4 +1,6 @@
-package impl;
+package impl.java.ds;
+
+import java.util.Comparator;
 
 /**
  * @description: 默认比较器

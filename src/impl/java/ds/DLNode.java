@@ -1,6 +1,4 @@
-package impl.list;
-
-import impl.Position;
+package impl.java.ds;
 
 /**
  * @description: 基于位置接口实现的双向链表节点类

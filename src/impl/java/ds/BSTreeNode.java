@@ -1,6 +1,4 @@
-package impl.tree;
-
-import impl.Entry;
+package impl.java.ds;
 
 /**
  * @description: 基于链表实现的二叉搜索树节点

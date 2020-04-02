@@ -1,4 +1,5 @@
-package impl;
+package impl.java.ds;
+
 
 /**
  * @description: 词典接口

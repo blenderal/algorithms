@@ -1,6 +1,5 @@
-package impl;
+package impl.java.ds;
 
-import impl.list.List;
 
 import java.util.NoSuchElementException;
 

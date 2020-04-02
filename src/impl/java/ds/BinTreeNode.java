@@ -1,10 +1,5 @@
-package impl.tree;
+package impl.java.ds;
 
-import impl.Iterator;
-import impl.LinkedListQueue;
-import impl.Queue;
-import impl.list.LinkedList;
-import impl.list.List;
 
 /**
  * @description: 二叉树节点类

@@ -1,6 +1,5 @@
-package impl.tree;
+package impl.java.ds;
 
-import impl.Iterator;
 
 /**
  * @description: 二叉树接口

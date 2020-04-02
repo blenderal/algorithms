@@ -1,4 +1,4 @@
-package impl;
+package impl.java.ds;
 
 /**
  * @description: 比较器
