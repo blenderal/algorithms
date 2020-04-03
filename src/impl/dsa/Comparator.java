@@ -1,7 +1,7 @@
-package impl.java.ds;
+package impl.dsa;
 
 /**
- * @description: 比较器
+ * @description: 比较器接口
  * @author: zww
  * @date: 2020-04-01
  * @version: V1.0

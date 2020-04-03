@@ -1,4 +1,4 @@
-package impl.java.ds;
+package impl.dsa;
 
 /**
  * @description: 单向链表节点

@@ -1,5 +1,4 @@
-package impl.java.ds;
-
+package impl.dsa;
 
 
 /**
@@ -146,7 +145,9 @@ public class BSTree<K extends Comparable<K>, V> extends BinTree_LinkedList<Entry
 
     @Override
     public Iterator<Entry<K, V>> entries() {
-        return null;
+        List<Entry<K, V>> list = new LinkedList<>();
+        concatenate(list, (BSTreeNode<K, V>) root);
+        return list.elements();
     }
 
     /*-----------------------------private method-------------------------------------**/
@@ -194,4 +195,32 @@ public class BSTree<K extends Comparable<K>, V> extends BinTree_LinkedList<Entry
         }
 
     }
+
+    private void concatenate(List<Entry<K, V>> list, BSTreeNode<K, V> v) {
+        if (v == null) {
+            return;
+        }
+        concatenate(list, (BSTreeNode<K, V>) v.getLeftChild());
+        list.insertLast(v.getElement());
+        concatenate(list, (BSTreeNode<K, V>) v.getRightChild());
+    }
+
+    public static void main(String[] args) {
+        BSTree<Integer, Integer> bsTree = new BSTree<>();
+        bsTree.insert(1, 1);
+        bsTree.insert(5, 5);
+        bsTree.insert(3, 3);
+        bsTree.insert(3, 3);
+        bsTree.insert(2, 2);
+        bsTree.insert(4, 4);
+        Iterator<Entry<Integer, Integer>> iterator = bsTree.entries();
+        while (iterator.hasNext()) {
+            Entry<Integer, Integer> entry = iterator.getNext();
+            System.out.println("[" + entry.getKey() + "," + entry.getValue() + "]");
+        }
+        System.out.println(bsTree.find(3));
+        System.out.println(bsTree.findAll(3));
+    }
+
+
 }

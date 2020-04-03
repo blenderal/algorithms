@@ -1,6 +1,6 @@
-package impl.java.ds;
+package impl.dsa;
 
-import java.util.Comparator;
+
 
 /**
  * @description: 默认比较器
@@ -8,7 +8,7 @@ import java.util.Comparator;
  * @date: 2020-04-01
  * @version: V1.0
  */
-public class ComparatorDefault<T> implements Comparator<T> {
+public class ComparatorDefault<T extends Comparable<T>> implements Comparator<T> {
 
     /**
      * 若a>（=或<）b，返回正数、零或负数
@@ -18,7 +18,7 @@ public class ComparatorDefault<T> implements Comparator<T> {
      * @return
      */
     @Override
-    public int compare(T a, T b) throws ClassCastException{
-        return ((Comparable) a).compareTo(b);
+    public int compare(T a, T b){
+        return a.compareTo(b);
     }
 }

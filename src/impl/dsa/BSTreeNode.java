@@ -1,4 +1,4 @@
-package impl.java.ds;
+package impl.dsa;
 
 /**
  * @description: 基于链表实现的二叉搜索树节点

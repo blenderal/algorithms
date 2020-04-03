@@ -1,24 +1,23 @@
-package impl.java.ds;
+package impl.dsa;
 
 
 import java.util.NoSuchElementException;
 
 /**
- * @description: 基于列表实现的位置迭代器
+ * @description: 基于列表实现的元素迭代器
  * @author: zww
  * @date: 2020-03-23
  * @version: V1.0
  */
-public class IteratorPosition<T> implements Iterator<Position<T>> {
+public class IteratorElement<T> implements Iterator<T> {
     private List<T> list;
-
     private Position<T> nextPosition;
 
-    public IteratorPosition() {
+    public IteratorElement() {
         list = null;
     }
 
-    public IteratorPosition(List<T> list) {
+    public IteratorElement(List<T> list) {
         this.list = list;
         if (list.isEmpty()) {
             nextPosition = null;
@@ -34,7 +33,7 @@ public class IteratorPosition<T> implements Iterator<Position<T>> {
      */
     @Override
     public Boolean hasNext() {
-        return nextPosition == null;
+        return nextPosition != null;
     }
 
     /**
@@ -43,9 +42,9 @@ public class IteratorPosition<T> implements Iterator<Position<T>> {
      * @return 对应元素
      */
     @Override
-    public Position<T> getNext() throws NoSuchElementException {
+    public T getNext() {
         if (!hasNext()) {
-            throw new NoSuchElementException("没有下个元素");
+            throw new NoSuchElementException("没有下一元素");
         } else {
             Position<T> currentPosition = nextPosition;
             if (currentPosition == list.last()) {
@@ -53,7 +52,7 @@ public class IteratorPosition<T> implements Iterator<Position<T>> {
             } else {
                 nextPosition = list.getNext(currentPosition);
             }
-            return currentPosition;
+            return currentPosition.getElement();
         }
     }
 }

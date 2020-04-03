@@ -1,4 +1,4 @@
-package impl.java.ds;
+package impl.dsa;
 
 
 import java.util.NoSuchElementException;
