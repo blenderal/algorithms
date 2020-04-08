@@ -205,16 +205,16 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
     @Override
     public BinTreePosition<T> getPrev() {
         // 有左孩子
-        if(hasLeftChild()){
+        if (hasLeftChild()) {
             return findMaxDescendant(getLeftChild());
         }
         // 没有左孩子且自己是右孩子
-        if(isRightChild()){
+        if (isRightChild()) {
             return getParent();
         }
         // 没有左孩子且自己是左孩子
         BinTreePosition<T> v = this;
-        while (v.isLeftChild()){
+        while (v.isLeftChild()) {
             v = v.getParent();
         }
         return v.getParent();
@@ -233,7 +233,7 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
             return findMinDescendant(getRightChild());
         }
         // 没有右孩子 且自己是左孩子
-        if(isLeftChild()){
+        if (isLeftChild()) {
             return getParent();
         }
         // 没有右孩子 且自己是右孩子
@@ -254,7 +254,7 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
          */
         BinTreePosition<T> v = this;
         // 沿着当前节点一直往上查找 直到节点为左孩子 或者节点没有父节点
-        while(v.isRightChild()){
+        while (v.isRightChild()) {
             v = v.getParent();
         }
         // 直到节点左孩子则返回他的父节点 或者 节点没有父节点则没有后继节点
@@ -379,8 +379,8 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
     /*---------------------------------------------private method---------------------------------------*/
 
     private BinTreePosition<T> findMaxDescendant(BinTreePosition<T> v) {
-        if(v!=null){
-            while(v.hasRightChild()){
+        if (v != null) {
+            while (v.hasRightChild()) {
                 v = v.getRightChild();
             }
         }
