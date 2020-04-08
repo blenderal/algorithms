@@ -275,9 +275,9 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
             } else {
                 parent.setRightChild(null);
             }
-            this.setParent(null);
             parent.updateSize();
             parent.updateHeight();
+            this.setParent(null);
             updateDepth();
         }
         return this;
@@ -380,7 +380,7 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
 
     private BinTreePosition<T> findMaxDescendant(BinTreePosition<T> v) {
         if(v!=null){
-            while(hasRightChild()){
+            while(v.hasRightChild()){
                 v = v.getRightChild();
             }
         }

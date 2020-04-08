@@ -1,7 +1,7 @@
 package basic.string;
 
 /**
- * @description:
+ * @description: KMP算法
  * @author: zww
  * @date: 2020-03-04
  * @version: V1.0

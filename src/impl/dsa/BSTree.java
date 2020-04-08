@@ -207,9 +207,9 @@ public class BSTree<K extends Comparable<K>, V> extends BinTree_LinkedList<Entry
 
     public static void main(String[] args) {
         BSTree<Integer, Integer> bsTree = new BSTree<>();
+        bsTree.insert(3, 3);
         bsTree.insert(1, 1);
         bsTree.insert(5, 5);
-        bsTree.insert(3, 3);
         bsTree.insert(3, 3);
         bsTree.insert(2, 2);
         bsTree.insert(4, 4);
