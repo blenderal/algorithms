@@ -35,11 +35,6 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
     private int depth;
 
     /**
-     * 红黑树对应颜色
-     */
-    private RBColor rbColor;
-
-    /**
      * 子树规模
      */
     private int size;
@@ -85,7 +80,7 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
         return tmp;
     }
 
-    /*---------------------------------------------BinNodePosition接口方法实现---------------------------------------*/
+    /*---------------------------------------------BinTreePosition接口方法实现---------------------------------------*/
 
     @Override
     public Boolean hasParent() {

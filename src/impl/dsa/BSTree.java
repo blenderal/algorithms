@@ -184,13 +184,13 @@ public class BSTree<K extends Comparable<K>, V> extends BinTree_LinkedList<Entry
             return;
         }
         int compare = comparator.compare(key, node.getKey());
-        if (compare < 0) {
+        if (compare <= 0) {
             findAllNodes(key, (BSTreeNode<K, V>) node.getLeftChild(), list, comparator);
         }
         if (compare == 0) {
             list.insertLast(node.getElement());
         }
-        if (compare > 0) {
+        if (compare >= 0) {
             findAllNodes(key, (BSTreeNode<K, V>) node.getRightChild(), list, comparator);
         }
 
@@ -207,7 +207,7 @@ public class BSTree<K extends Comparable<K>, V> extends BinTree_LinkedList<Entry
 
     public static void main(String[] args) {
         BSTree<Integer, Integer> bsTree = new BSTree<>();
-        bsTree.insert(3, 3);
+        bsTree.insert(3, 10);
         bsTree.insert(1, 1);
         bsTree.insert(5, 5);
         bsTree.insert(3, 3);
@@ -219,7 +219,10 @@ public class BSTree<K extends Comparable<K>, V> extends BinTree_LinkedList<Entry
             System.out.println("[" + entry.getKey() + "," + entry.getValue() + "]");
         }
         System.out.println(bsTree.find(3));
-        System.out.println(bsTree.findAll(3));
+        Iterator<Entry<Integer,Integer>> i = bsTree.findAll(3);
+        while (i.hasNext()){
+            System.out.println(i.getNext().getValue());
+        }
     }
 
 

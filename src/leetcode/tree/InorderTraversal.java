@@ -35,9 +35,9 @@ public class InorderTraversal {
         return result;
     }
 
-    public static void goAlongLeftBranch(TreeNode treeNode, Stack<TreeNode> treeNodes) {
+    public static void goAlongLeftBranch(TreeNode treeNode, Stack<TreeNode> stack) {
         while (treeNode != null) {
-            treeNodes.push(treeNode);
+            stack.push(treeNode);
             treeNode = treeNode.left;
         }
 

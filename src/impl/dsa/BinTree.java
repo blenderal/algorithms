@@ -7,24 +7,7 @@ package impl.dsa;
  * @date: 2020-03-23
  * @version: V1.0
  */
-public interface BinTree<T> {
-    /**
-     * 获取根结点
-     * @return 根结点
-     */
-    BinTreePosition<T> getRoot();
-
-    /**
-     * 是否为空
-     * @return 是否为空
-     */
-    Boolean isEmpty();
-
-    /**
-     * 获取树的规模
-     * @return 树的规模
-     */
-    int getSize();
+public interface BinTree<T> extends Tree<T>{
 
     /**
      * 获取树的高度

@@ -6,7 +6,7 @@ package impl.dsa;
  * @date: 2020-04-01
  * @version: V1.0
  */
-public interface Entry<K,V> {
+public interface Entry<K,V>{
 
     K getKey();
 
