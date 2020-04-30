@@ -107,10 +107,9 @@ public class ArrayVector<T> implements Vector<T> {
         for (int i = n; i > r; i--) {
             A[i] = A[i - 1];
         }
-        T bak = elementData(r);
         A[r] = t;
         n++;
-        return bak;
+        return t;
     }
 
     /**
@@ -133,4 +132,16 @@ public class ArrayVector<T> implements Vector<T> {
         return bak;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[");
+        for (int i = 0; i < n - 1; i++) {
+            stringBuilder.append(A[i]);
+            stringBuilder.append(",");
+        }
+        stringBuilder.append(A[n - 1]);
+        stringBuilder.append("]");
+        return stringBuilder.toString();
+    }
 }
