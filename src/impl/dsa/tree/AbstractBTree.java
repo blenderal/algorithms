@@ -1,4 +1,4 @@
-package impl.dsa.btree;
+package impl.dsa.tree;
 
 /**
  * @description: B树相关接口

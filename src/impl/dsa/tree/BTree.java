@@ -1,4 +1,4 @@
-package impl.dsa.btree;
+package impl.dsa.tree;
 
 import impl.dsa.LinkedListQueue;
 import impl.dsa.Queue;
@@ -52,8 +52,8 @@ public class BTree<K extends Comparable<K>> extends AbstractBTree<K> {
             return null;
         }
         int rank = lastV.search(key);
-        lastV.insertKey(rank + 1, key);
-        lastV.insertChild(rank + 2, null);
+        lastV.insertKeyAt(rank + 1, key);
+        lastV.insertChildAt(rank + 2, null);
         size++;
         if (!lastV.isOverflow()) {
             return key;
@@ -88,12 +88,12 @@ public class BTree<K extends Comparable<K>> extends AbstractBTree<K> {
             while (!u.isLeaf()) {
                 u = u.getChild(0);
             }
-            v.replaceKey(rank, u.getKey(0));
+            v.replaceKeyAt(rank, u.getKey(0));
             v = u;
             rank = 0;
         }
-        v.removeKey(rank);
-        v.removeChild(rank + 1);
+        v.removeKeyAt(rank);
+        v.removeChildAt(rank + 1);
         size--;
         while (v.isUnderflow()) {
             // 到达根结点
@@ -167,7 +167,7 @@ public class BTree<K extends Comparable<K>> extends AbstractBTree<K> {
         while (!queue.isEmpty()) {
             AbstractBTreeNode<K> node = queue.dequeue();
             stringBuilder.append(node.keys);
-            for (int i = 0; i < node.getChildSize(); i++) {
+            for (int i = 0; i < node.getChildrenSize(); i++) {
                 if (node.getChild(i) != null) {
                     queue.enqueue(node.getChild(i));
                 }

@@ -1,4 +1,6 @@
-package impl.dsa;
+package impl.dsa.oldversion;
+
+
 
 
 /**
@@ -7,7 +9,7 @@ package impl.dsa;
  * @date: 2020-03-23
  * @version: V1.0
  */
-public interface BinTree<T> extends Tree<T>{
+public interface BinTree<T> extends Tree<T> {
 
     /**
      * 获取树的高度

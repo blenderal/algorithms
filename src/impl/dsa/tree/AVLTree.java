@@ -1,44 +1,30 @@
-package impl.dsa;
+package impl.dsa.tree;
 
 /**
- * @description: 平衡二叉搜索树AVL树
- * 基于二叉搜索树扩充
+ * @description: AVL树
  * @author: zww
- * @date: 2020/4/3
+ * @date: 2020/5/19
  * @version: V1.0
  */
-public class AVLTree<K extends Comparable<K>, V> extends BSTree<K, V> implements Dictionary<K, V> {
-    public AVLTree() {
-        super();
-    }
-
-    public AVLTree(BinTreePosition<Entry<K, V>> r) {
-        super(r);
-    }
-
-    public AVLTree(BinTreePosition<Entry<K, V>> r, Comparator<K> comparator) {
-        super(r, comparator);
-    }
-
+public class AVLTree<K extends Comparable<K>> extends BSTree<K> {
     /**
      * 插入节点
      *
-     * @param key   键
-     * @param value 值
-     * @return 节点存放词条
+     * @param key 键
+     * @return 插入关键码对应的节点
      */
     @Override
-    public Entry<K, V> insert(K key, V value) {
-        Entry<K, V> e = super.insert(key, value);
+    public TreeNode<K> insert(K key) {
+        AbstractBinaryTreeNode<K> e = (AbstractBinaryTreeNode<K>) super.insert(key);
         // 从插入节点的父亲节点开始重新平衡
-        BinTreePosition<Entry<K, V>> z = lastV.getParent();
+        AbstractBinaryTreeNode<K> z = e.getParent();
         if (z != null) {
             while (true) {
                 // 若z节点失去平衡，则通过旋转使之重新平衡
                 if (!isBalanced(z)) {
                     z = rotate(z);
                     // 子树重平衡后的根结点没有父亲节点
-                    if(!z.hasParent()){
+                    if (!z.hasParent()) {
                         // 则子树根结点为整个AVL树的根结点
                         root = z;
                     }
@@ -54,18 +40,23 @@ public class AVLTree<K extends Comparable<K>, V> extends BSTree<K, V> implements
         return e;
     }
 
-
+    /**
+     * 删除节点
+     *
+     * @param key 关键码
+     * @return 删除掉的节点的父节点
+     */
     @Override
-    public Entry<K, V> remove(K key) {
-        Entry<K, V> e = super.remove(key);
+    public TreeNode<K> remove(K key) {
+        AbstractBinaryTreeNode<K> e = (AbstractBinaryTreeNode<K>) super.remove(key);
         // 从删除节点的父亲开始重新平衡化
-        BinTreePosition<Entry<K, V>> z = lastV;
+        AbstractBinaryTreeNode<K> z = e;
         if (e != null) {
-            while (true){
-                if(!isBalanced(z)){
+            while (true) {
+                if (!isBalanced(z)) {
                     z = rotate(z);
                 }
-                if(!z.hasParent()){
+                if (!z.hasParent()) {
                     root = z;
                     break;
                 }
@@ -75,21 +66,21 @@ public class AVLTree<K extends Comparable<K>, V> extends BSTree<K, V> implements
         return e;
     }
 
-    public static void main(String[] args) {
-        AVLTree<Integer, Integer> avlTree = new AVLTree<>();
-        avlTree.insert(1, 1);
-        avlTree.insert(2, 2);
-        avlTree.insert(3, 3);
-        avlTree.insert(4, 4);
-        avlTree.insert(5, 5);
-        avlTree.remove(4);
-        Iterator<Entry<Integer,Integer>> i =avlTree.entries();
-        while (i.hasNext()){
-            System.out.println(i.getNext().getKey());
+    /**
+     * 判断以v为根节点的子树是否平衡
+     *
+     * @param v
+     * @return
+     */
+    private boolean isBalanced(AbstractBinaryTreeNode<K> v) {
+        if (null == v) {
+            return true;
         }
+        int lh = v.hasLeftChild() ? v.getLeftChild().getHeight() : -1;
+        int rh = v.hasRightChild() ? v.getRightChild().getHeight() : -1;
+        int deltaH = lh - rh;
+        return deltaH > -2 && deltaH < 2;
     }
-
-    /*------------------------------------------- private method -------------------------------------------**/
 
     /**
      * 通过旋转，使节点z的平衡因子的绝对值不超过1（支持AVL树）
@@ -97,15 +88,15 @@ public class AVLTree<K extends Comparable<K>, V> extends BSTree<K, V> implements
      * @param z
      * @return 返回新的子树根
      */
-    private BinTreePosition<Entry<K, V>> rotate(BinTreePosition<Entry<K, V>> z) {
-        BinTreePosition<Entry<K, V>> y = tallerChild(z);
-        BinTreePosition<Entry<K, V>> x = tallerChild(y);
+    private AbstractBinaryTreeNode<K> rotate(AbstractBinaryTreeNode<K> z) {
+        AbstractBinaryTreeNode<K> y = tallerChild(z);
+        AbstractBinaryTreeNode<K> x = tallerChild(y);
         boolean cType = z.isLeftChild();
-        BinTreePosition<Entry<K, V>> p = z.getParent();
+        AbstractBinaryTreeNode<K> p = z.getParent();
         //自左向右，三个节点
-        BinTreePosition<Entry<K, V>> a, b, c;
+        AbstractBinaryTreeNode<K> a, b, c;
         //自左向右，四棵子树
-        BinTreePosition<Entry<K, V>> t0, t1, t2, t3;
+        AbstractBinaryTreeNode<K> t0, t1, t2, t3;
         // 分四种情况
         if (y.isLeftChild()) {
             c = z;
@@ -155,15 +146,16 @@ public class AVLTree<K extends Comparable<K>, V> extends BSTree<K, V> implements
     /**
      * 3+4重构
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param t0
-     * @param t1
-     * @param t2
-     * @param t3
+     * @param a  a节点
+     * @param b  b节点
+     * @param c  c节点
+     * @param t0 t0子树根结点
+     * @param t1 t1子树根结点
+     * @param t2 t2子树根结点
+     * @param t3 t3子树根结点
      */
-    private void connect34(BinTreePosition<Entry<K, V>> a, BinTreePosition<Entry<K, V>> b, BinTreePosition<Entry<K, V>> c, BinTreePosition<Entry<K, V>> t0, BinTreePosition<Entry<K, V>> t1, BinTreePosition<Entry<K, V>> t2, BinTreePosition<Entry<K, V>> t3) {
+    private void connect34(AbstractBinaryTreeNode<K> a, AbstractBinaryTreeNode<K> b, AbstractBinaryTreeNode<K> c,
+                           AbstractBinaryTreeNode<K> t0, AbstractBinaryTreeNode<K> t1, AbstractBinaryTreeNode<K> t2, AbstractBinaryTreeNode<K> t3) {
         a.secede();
         b.secede();
         c.secede();
@@ -190,10 +182,10 @@ public class AVLTree<K extends Comparable<K>, V> extends BSTree<K, V> implements
     /**
      * 找到节点v更高的子树
      *
-     * @param v
-     * @return
+     * @param v 节点v
+     * @return 更高的子树
      */
-    private BinTreePosition<Entry<K, V>> tallerChild(BinTreePosition<Entry<K, V>> v) {
+    private AbstractBinaryTreeNode<K> tallerChild(AbstractBinaryTreeNode<K> v) {
         int lh = v.hasLeftChild() ? v.getLeftChild().getHeight() : -1;
         int rh = v.hasRightChild() ? v.getRightChild().getHeight() : -1;
         if (lh > rh) {
@@ -209,19 +201,4 @@ public class AVLTree<K extends Comparable<K>, V> extends BSTree<K, V> implements
         }
     }
 
-    /**
-     * 判断以v为根节点的子树是否平衡
-     *
-     * @param v
-     * @return
-     */
-    private boolean isBalanced(BinTreePosition<Entry<K, V>> v) {
-        if (null == v) {
-            return true;
-        }
-        int lh = v.hasLeftChild() ? v.getLeftChild().getHeight() : -1;
-        int rh = v.hasRightChild() ? v.getRightChild().getHeight() : -1;
-        int deltaH = lh - rh;
-        return deltaH > -2 && deltaH < 2;
-    }
 }

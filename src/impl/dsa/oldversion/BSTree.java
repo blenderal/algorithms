@@ -1,4 +1,6 @@
-package impl.dsa;
+package impl.dsa.oldversion;
+
+
 
 
 /**
@@ -204,26 +206,5 @@ public class BSTree<K extends Comparable<K>, V> extends BinTree_LinkedList<Entry
         list.insertLast(v.getElement());
         concatenate(list, (BSTreeNode<K, V>) v.getRightChild());
     }
-
-    public static void main(String[] args) {
-        BSTree<Integer, Integer> bsTree = new BSTree<>();
-        bsTree.insert(3, 10);
-        bsTree.insert(1, 1);
-        bsTree.insert(5, 5);
-        bsTree.insert(3, 3);
-        bsTree.insert(2, 2);
-        bsTree.insert(4, 4);
-        Iterator<Entry<Integer, Integer>> iterator = bsTree.entries();
-        while (iterator.hasNext()) {
-            Entry<Integer, Integer> entry = iterator.getNext();
-            System.out.println("[" + entry.getKey() + "," + entry.getValue() + "]");
-        }
-        System.out.println(bsTree.find(3));
-        Iterator<Entry<Integer,Integer>> i = bsTree.findAll(3);
-        while (i.hasNext()){
-            System.out.println(i.getNext().getValue());
-        }
-    }
-
 
 }

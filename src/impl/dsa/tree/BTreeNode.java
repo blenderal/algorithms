@@ -1,4 +1,4 @@
-package impl.dsa.btree;
+package impl.dsa.tree;
 
 /**
  * @description: B树节点
@@ -48,11 +48,11 @@ public class BTreeNode<K extends Comparable<K>> extends AbstractBTreeNode<K> {
         AbstractBTreeNode<K> u = new BTreeNode<>(order);
         // 将分裂前的右边元素一一剪切至新节点u
         for (int i = 0; i < order - s - 1; i++) {
-            u.insertKey(i, this.removeKey(s + 1));
-            u.insertChild(i, this.removeChild(s + 1));
+            u.insertKeyAt(i, this.removeKeyAt(s + 1));
+            u.insertChildAt(i, this.removeChildAt(s + 1));
 
         }
-        u.replaceChild(order - s - 1, this.removeChild(s + 1));
+        u.replaceChildAt(order - s - 1, this.removeChildAt(s + 1));
         // 若新节点u的孩子不为空
         if (!u.isLeaf()) {
             // 将新节点u的孩子的父节点一一指向新节点u
@@ -66,15 +66,15 @@ public class BTreeNode<K extends Comparable<K>> extends AbstractBTreeNode<K> {
         if (this.isRoot()) {
             // 则创造一个父节点并将此节点作为根结点
             p = new BTreeNode<>(order);
-            p.replaceChild(0, this);
+            p.replaceChildAt(0, this);
             this.setParent(p);
         }
         // 找到父节点应该指向u节点的秩
         int rank = 1 + p.search(this.getKey(0));
         // 父节点插入上溢关键码
-        p.insertKey(rank, this.removeKey(s));
+        p.insertKeyAt(rank, this.removeKeyAt(s));
         // 父节点与分类出来的新节点u相关联
-        p.insertChild(rank + 1, u);
+        p.insertChildAt(rank + 1, u);
         u.setParent(p);
         return p;
     }
@@ -91,13 +91,13 @@ public class BTreeNode<K extends Comparable<K>> extends AbstractBTreeNode<K> {
         if (r > 0) {
             AbstractBTreeNode<K> ls = p.getChild(r - 1);
             // 左兄弟足够胖可以借元素
-            if ((order + 1) / 2 < ls.getChildSize()) {
+            if ((order + 1) / 2 < ls.getChildrenSize()) {
                 // p借出一个关键码给当前节点（作为最小关键码）
-                this.insertKey(0, p.getKey(r - 1));
+                this.insertKeyAt(0, p.getKey(r - 1));
                 // ls的最大关键码转入p
-                p.replaceKey(r - 1, ls.removeKey(ls.getKeySize() - 1));
+                p.replaceKeyAt(r - 1, ls.removeKeyAt(ls.getKeySize() - 1));
                 //同时ls的最右侧孩子过继给当前节点
-                this.insertChild(0, ls.removeChild(ls.getChildSize() - 1));
+                this.insertChildAt(0, ls.removeChildAt(ls.getChildrenSize() - 1));
                 if (!this.isLeaf()) {
                     this.getChild(0).setParent(this);
                 }
@@ -107,18 +107,18 @@ public class BTreeNode<K extends Comparable<K>> extends AbstractBTreeNode<K> {
         }
         // 至此左兄弟为空要么太瘦
         // 有右兄弟
-        if (r < p.getChildSize() - 1) {
+        if (r < p.getChildrenSize() - 1) {
             AbstractBTreeNode<K> rs = p.getChild(r + 1);
             // 右孩子足够胖可以借元素
-            if ((order + 1) / 2 < rs.getChildSize()) {
+            if ((order + 1) / 2 < rs.getChildrenSize()) {
                 // p借出一个关键码给当前节点（作为最大关键码）
-                this.insertKey(this.getKeySize(), p.getKey(r));
+                this.insertKeyAt(this.getKeySize(), p.getKey(r));
                 // rs的最小关键码转入p
-                p.replaceKey(r, rs.removeKey(0));
+                p.replaceKeyAt(r, rs.removeKeyAt(0));
                 // 同时rs的最左侧孩子过继给v
-                this.insertChild(this.getChildSize(), rs.removeChild(0));
+                this.insertChildAt(this.getChildrenSize(), rs.removeChildAt(0));
                 if (!this.isLeaf()) {
-                    this.getChild(this.getChildSize() - 1).setParent(this);
+                    this.getChild(this.getChildrenSize() - 1).setParent(this);
                 }
                 //至此，通过左旋已完成当前层（以及所有层）的下溢处理
                 return p;
@@ -129,38 +129,38 @@ public class BTreeNode<K extends Comparable<K>> extends AbstractBTreeNode<K> {
         if (r > 0) {
             AbstractBTreeNode<K> ls = p.getChild(r - 1);
             // p的第r - 1个关键码转入l
-            ls.insertKey(ls.getKeySize(), p.removeKey(r - 1));
+            ls.insertKeyAt(ls.getKeySize(), p.removeKeyAt(r - 1));
             // 当前节点不再是p的第r个孩子
-            p.removeChild(r);
+            p.removeChildAt(r);
             // 当前节点的最左侧孩子过继给ls做最右侧孩子
-            ls.insertChild(ls.getChildSize(), this.removeChild(0));
+            ls.insertChildAt(ls.getChildrenSize(), this.removeChildAt(0));
             if (!ls.isLeaf()) {
-                ls.getChild(ls.getChildSize() - 1).setParent(ls);
+                ls.getChild(ls.getChildrenSize() - 1).setParent(ls);
             }
             // 当前节点剩余的关键码和孩子，依次转入ls
             while (!this.isKeyEmpty()) {
-                ls.insertKey(ls.getKeySize(), this.removeKey(0));
-                ls.insertChild(ls.getChildSize(), this.removeChild(0));
+                ls.insertKeyAt(ls.getKeySize(), this.removeKeyAt(0));
+                ls.insertChildAt(ls.getChildrenSize(), this.removeChildAt(0));
                 if (!ls.isLeaf()) {
-                    ls.getChild(ls.getChildSize() - 1).setParent(ls);
+                    ls.getChild(ls.getChildrenSize() - 1).setParent(ls);
                 }
             }
         } else {
             // 与左兄弟合并
             AbstractBTreeNode<K> rs = p.getChild(r + 1);
             // p的第r个关键码转入r
-            rs.insertKey(0, p.removeKey(r));
+            rs.insertKeyAt(0, p.removeKeyAt(r));
             // 当前节点不再是p的第r个孩子
-            p.removeChild(r);
+            p.removeChildAt(r);
             // 当前节点的最左侧孩子过继给ls做最右侧孩子
-            rs.insertChild(0, this.removeChild(this.getChildSize() - 1));
+            rs.insertChildAt(0, this.removeChildAt(this.getChildrenSize() - 1));
             if (!rs.isLeaf()) {
                 rs.getChild(0).setParent(rs);
             }
             // 当前节点的关键码和孩子，依次转入rs
             while (!this.isKeyEmpty()) {
-                rs.insertKey(0, this.removeKey(this.getKeySize() - 1));
-                rs.insertChild(0, this.removeChild(this.getChildSize() - 1));
+                rs.insertKeyAt(0, this.removeKeyAt(this.getKeySize() - 1));
+                rs.insertChildAt(0, this.removeChildAt(this.getChildrenSize() - 1));
                 if (!rs.isLeaf()) {
                     rs.getChild(0).setParent(rs);
                 }

@@ -1,4 +1,4 @@
-package impl.dsa.btree;
+package impl.dsa.tree;
 
 import impl.dsa.ArrayVector;
 import impl.dsa.Comparator;
@@ -113,7 +113,7 @@ public abstract class AbstractBTreeNode<K extends Comparable<K>> {
      * 获取孩子节点规模
      * @return 孩子节点规模
      */
-    protected int getChildSize(){
+    protected int getChildrenSize(){
         return getChildren().getSize();
     }
 
@@ -174,23 +174,11 @@ public abstract class AbstractBTreeNode<K extends Comparable<K>> {
     /**
      * 插入索引值
      *
-     * @param key 索引
-     * @return 插入的索引值
-     */
-    protected K insertAtLast(K key) {
-        int rank = search(key);
-        keys.insertAtRank(rank + 1, key);
-        return key;
-    }
-
-    /**
-     * 插入索引值
-     *
      * @param rank 插入的位置
      * @param key 索引
      * @return 插入的索引值
      */
-    protected K insertKey(int rank, K key) {
+    protected K insertKeyAt(int rank, K key) {
         keys.insertAtRank(rank , key);
         return key;
     }
@@ -201,18 +189,10 @@ public abstract class AbstractBTreeNode<K extends Comparable<K>> {
      * @param r 索引
      * @return 删除的索引值
      */
-    protected K removeKey(int r) {
+    protected K removeKeyAt(int r) {
         return keys.removeAtRank(r);
     }
 
-    /**
-     * 删除在r位置的索引
-     * @param r 秩
-     * @return 在r位置的索引
-     */
-    protected K removeKeyAt(int r){
-        return keys.removeAtRank(r);
-    }
 
     /**
      * 插入孩子节点
@@ -220,7 +200,7 @@ public abstract class AbstractBTreeNode<K extends Comparable<K>> {
      * @param child 孩子节点
      * @return 插入的孩子节点
      */
-    protected AbstractBTreeNode<K> insertChild(int rank,AbstractBTreeNode<K> child){
+    protected AbstractBTreeNode<K> insertChildAt(int rank, AbstractBTreeNode<K> child){
         return children.insertAtRank(rank,child);
     }
 
@@ -229,7 +209,7 @@ public abstract class AbstractBTreeNode<K extends Comparable<K>> {
      * @param rank 待删除孩子的秩
      * @return 删除的孩子节点
      */
-    protected AbstractBTreeNode<K> removeChild(int rank) {
+    protected AbstractBTreeNode<K> removeChildAt(int rank) {
         return children.removeAtRank(rank);
     }
 
@@ -239,7 +219,7 @@ public abstract class AbstractBTreeNode<K extends Comparable<K>> {
      * @param key 索引
      * @return 旧的索引值
      */
-    protected K replaceKey(int rank, K key){
+    protected K replaceKeyAt(int rank, K key){
         return keys.replaceAtRank(rank,key);
     }
 
@@ -249,7 +229,7 @@ public abstract class AbstractBTreeNode<K extends Comparable<K>> {
      * @param child 替换后的新孩子节点
      * @return 旧孩子节点
      */
-    protected AbstractBTreeNode<K> replaceChild(int rank,AbstractBTreeNode<K> child){
+    protected AbstractBTreeNode<K> replaceChildAt(int rank, AbstractBTreeNode<K> child){
         return children.replaceAtRank(rank,child);
     }
 

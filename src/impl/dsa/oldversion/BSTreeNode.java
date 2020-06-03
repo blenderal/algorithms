@@ -1,4 +1,4 @@
-package impl.dsa;
+package impl.dsa.oldversion;
 
 /**
  * @description: 基于链表实现的二叉搜索树节点

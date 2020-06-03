@@ -1,4 +1,4 @@
-package impl.dsa;
+package impl.dsa.oldversion;
 
 
 /**
@@ -12,32 +12,32 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
     /**
      * 数据
      */
-    private T data;
+    protected T data;
     /**
      * 左孩子
      */
-    private BinTreePosition<T> lChild;
+    protected BinTreePosition<T> lChild;
     /**
      * 右孩子
      */
-    private BinTreePosition<T> rChild;
+    protected BinTreePosition<T> rChild;
     /**
      * 父节点
      */
-    private BinTreePosition<T> parent;
+    protected BinTreePosition<T> parent;
     /**
      * 高度
      */
-    private int height;
+    protected int height;
     /**
      * 深度
      */
-    private int depth;
+    protected int depth;
 
     /**
      * 子树规模
      */
-    private int size;
+    protected int size;
 
     public BinTreeNode() {
     }
@@ -431,23 +431,6 @@ public class BinTreeNode<T> implements BinTreePosition<T> {
                 queue.enqueue(position.getRightChild());
             }
         }
-    }
-
-
-    public static void main(String[] args) {
-        BinTreeNode<Integer> root = new BinTreeNode<>(1, null, null, null, false);
-        BinTreeNode<Integer> left = new BinTreeNode<>(2, null, null, null, false);
-        BinTreeNode<Integer> right = new BinTreeNode<>(3, null, null, null, false);
-        root.insertAsLeftChild(left);
-        root.insertAsRightChild(right);
-        BinTree<Integer> binTree = new BinTree_LinkedList<>(root);
-        Iterator<Integer> iterator = binTree.levelorder();
-        while (iterator.hasNext()) {
-            System.out.println(iterator.getNext());
-        }
-        System.out.println(binTree.getHeight());
-        System.out.println(binTree.getSize());
-        System.out.println(binTree.getRoot());
     }
 
 
