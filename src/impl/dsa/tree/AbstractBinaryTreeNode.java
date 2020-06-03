@@ -314,7 +314,6 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @param r 待添加的元素
      * @return 当前节点位置
      */
-
     public AbstractBinaryTreeNode<K> insertAsRightChild(AbstractBinaryTreeNode<K> r) {
         if (hasRightChild()) {
             rChild.secede();

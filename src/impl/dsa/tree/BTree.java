@@ -26,7 +26,7 @@ public class BTree<K extends Comparable<K>> extends AbstractBTree<K> {
      * @return key对应词条
      */
     @Override
-    K search(K key) {
+    public K search(K key) {
         if (isEmpty()) {
             return null;
         }
@@ -46,7 +46,7 @@ public class BTree<K extends Comparable<K>> extends AbstractBTree<K> {
      * @return 插入的索引
      */
     @Override
-    K insert(K key) {
+    public K insert(K key) {
         AbstractBTreeNode<K> v = find(key);
         if (v != null) {
             return null;
@@ -77,7 +77,7 @@ public class BTree<K extends Comparable<K>> extends AbstractBTree<K> {
      * @return 删除的索引
      */
     @Override
-    K remove(K key) {
+    public K remove(K key) {
         AbstractBTreeNode<K> v = find(key);
         if (v == null) {
             return null;

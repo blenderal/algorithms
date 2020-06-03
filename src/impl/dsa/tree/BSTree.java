@@ -20,7 +20,7 @@ public class BSTree<K extends Comparable<K>> extends AbstractBSTree<K> {
      * @return 插入关键码对应的节点
      */
     @Override
-    TreeNode<K> insert(K key) {
+    public TreeNode<K> insert(K key) {
         TreeNode<K> node;
         if (isEmpty()) {
             root = new BSTreeNode<>(key, null, null, null, true);
@@ -64,7 +64,7 @@ public class BSTree<K extends Comparable<K>> extends AbstractBSTree<K> {
      * @return 删除关键码对应的节点的父节点
      */
     @Override
-    TreeNode<K> remove(K key) {
+    public TreeNode<K> remove(K key) {
         AbstractBinaryTreeNode<K> p;
         if (isEmpty()) {
             return null;

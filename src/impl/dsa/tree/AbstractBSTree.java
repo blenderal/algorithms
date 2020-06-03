@@ -21,7 +21,7 @@ public abstract class AbstractBSTree<K extends Comparable<K>> extends AbstractBi
      * @return 关键码对应的节点
      */
     @Override
-    TreeNode<K> find(K key) {
+    public TreeNode<K> find(K key) {
         if (isEmpty()) {
             return null;
         }
@@ -36,7 +36,7 @@ public abstract class AbstractBSTree<K extends Comparable<K>> extends AbstractBi
      * @return 关键码对应的节点迭代器
      */
     @Override
-    Iterator<TreeNode<K>> findAll(K key) {
+    public Iterator<TreeNode<K>> findAll(K key) {
         List<TreeNode<K>> list = new LinkedList<>();
         findAllNodes(key, root, list);
         return list.elements();
