@@ -105,12 +105,6 @@ public abstract class AbstractBinaryTree<K> implements Tree<K>{
      */
     abstract TreeNode<K> find(K key);
 
-    /**
-     * 查找所有关键码
-     * @param key 关键码
-     * @return 关键码对应的节点迭代器
-     */
-    abstract Iterator<TreeNode<K>> findAll(K key);
 
     /**
      * 插入关键码

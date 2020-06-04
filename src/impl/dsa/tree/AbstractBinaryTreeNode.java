@@ -9,29 +9,7 @@ import impl.dsa.*;
  * @version: V1.0
  */
 public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
-    public AbstractBinaryTreeNode(K key, AbstractBinaryTreeNode<K> lChild, AbstractBinaryTreeNode<K> rChild, AbstractBinaryTreeNode<K> parent, boolean asLChild) {
-        size = 1;
-        height = 0;
-        depth = 0;
-        this.parent = null;
-        this.lChild = null;
-        this.rChild = null;
-        if (parent != null) {
-            if (asLChild) {
-                parent.insertAsLeftChild(this);
-            } else {
-                parent.insertAsRightChild(this);
-            }
-        }
 
-        this.key = key;
-        if (lChild != null) {
-            insertAsLeftChild(lChild);
-        }
-        if (rChild != null) {
-            insertAsRightChild(rChild);
-        }
-    }
 
     /**
      * 关键码

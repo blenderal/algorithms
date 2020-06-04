@@ -30,20 +30,6 @@ public abstract class AbstractBSTree<K extends Comparable<K>> extends AbstractBi
     }
 
     /**
-     * 查找所有关键码
-     *
-     * @param key 关键码
-     * @return 关键码对应的节点迭代器
-     */
-    @Override
-    public Iterator<TreeNode<K>> findAll(K key) {
-        List<TreeNode<K>> list = new LinkedList<>();
-        findAllNodes(key, root, list);
-        return list.elements();
-    }
-
-
-    /**
      * 二分查找
      *
      * @param root 根结点
@@ -75,28 +61,4 @@ public abstract class AbstractBSTree<K extends Comparable<K>> extends AbstractBi
         }
     }
 
-    /**
-     * 查找所有节点
-     *
-     * @param key  关键码
-     * @param node 根结点
-     * @param list 存储节点的列表
-     */
-    private void findAllNodes(K key, AbstractBinaryTreeNode<K> node, List<TreeNode<K>> list) {
-        // 递归基
-        if (node == null) {
-            return;
-        }
-        int compare = comparator.compare(key, node.getElement());
-        if (compare <= 0) {
-            findAllNodes(key, node.getLeftChild(), list);
-        }
-        if (compare == 0) {
-            list.insertLast(node);
-        }
-        if (compare >= 0) {
-            findAllNodes(key, node.getRightChild(), list);
-        }
-
-    }
 }

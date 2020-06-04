@@ -8,10 +8,6 @@ package impl.dsa.tree;
  * @version: V1.0
  */
 public class BSTree<K extends Comparable<K>> extends AbstractBSTree<K> {
-    /**
-     * 最后操作的节点，以便AVL树、伸展树重平衡
-     */
-    protected BSTreeNode<K> lastV;
 
     /**
      * 插入关键码
@@ -39,17 +35,11 @@ public class BSTree<K extends Comparable<K>> extends AbstractBSTree<K> {
                 } else if (compare > 0) {
                     asLChild = false;
                     break;
-                    // key等于目标节点并且没有左孩子
-                } else if (!p.hasLeftChild()) {
-                    asLChild = true;
-                    break;
-                    // key等于目标节点并且有左孩子 没有右孩子
-                } else if (!p.hasRightChild()) {
-                    asLChild = false;
-                    break;
-                    // key等于目标节点并且有左孩子 有右孩子
-                } else {
-                    p = p.getLeftChild();
+                    // key等于目标节点
+                } else{
+                    // 替换旧的值
+                    p.setElement(key);
+                    return p;
                 }
             }
             node = new BSTreeNode<>(key, null, null, p, asLChild);

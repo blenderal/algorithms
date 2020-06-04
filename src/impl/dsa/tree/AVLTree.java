@@ -15,7 +15,11 @@ public class AVLTree<K extends Comparable<K>> extends BSTree<K> {
      */
     @Override
     public TreeNode<K> insert(K key) {
+        AbstractBinaryTreeNode<K> target = binSearch(root,key);
         AbstractBinaryTreeNode<K> e = (AbstractBinaryTreeNode<K>) super.insert(key);
+        if(target.getElement().equals(key) ){
+            return e;
+        }
         // 从插入节点的父亲节点开始重新平衡
         AbstractBinaryTreeNode<K> z = e.getParent();
         if (z != null) {
