@@ -8,13 +8,13 @@ import impl.dsa.Iterator;
  * @date: 2020/5/19
  * @version: V1.0
  */
-public interface Tree<T> {
+public interface Tree<K,V> {
 
     /**
      * 获取根结点
      * @return 根结点
      */
-    TreeNode<T> getRoot();
+    TreeNode<K,V> getRoot();
 
     /**
      * 是否为空
@@ -39,23 +39,23 @@ public interface Tree<T> {
      * 前序遍历
      * @return 迭代器
      */
-    Iterator<T> preorder();
+    Iterator<TreeNode<K,V>> preorder();
 
     /**
      * 中序遍历
      * @return 迭代器
      */
-    Iterator<T> inorder();
+    Iterator<TreeNode<K,V>> inorder();
 
     /**
      * 后序遍历
      * @return 迭代器
      */
-    Iterator<T> postorder();
+    Iterator<TreeNode<K,V>> postorder();
 
     /**
      * 层次遍历
      * @return 迭代器
      */
-    Iterator<T> levelorder();
+    Iterator<TreeNode<K,V>> levelorder();
 }

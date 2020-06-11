@@ -8,29 +8,36 @@ import impl.dsa.*;
  * @date: 2020/5/20
  * @version: V1.0
  */
-public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
-
+public abstract class AbstractBinaryTreeNode<K,V> implements TreeNode<K,V> {
+    public AbstractBinaryTreeNode(Entry<K,V> entry, AbstractBinaryTreeNode<K,V> lChild, AbstractBinaryTreeNode<K,V> rChild, AbstractBinaryTreeNode<K,V> parent, boolean asLChild){
+    }
 
     /**
-     * 关键码
+     * 元素
      */
-    protected K key;
+    protected Entry<K,V> entry;
+
+
     /**
      * 左孩子
      */
-    protected AbstractBinaryTreeNode<K> lChild;
+    protected AbstractBinaryTreeNode<K,V> lChild;
+
     /**
      * 右孩子
      */
-    protected AbstractBinaryTreeNode<K> rChild;
+    protected AbstractBinaryTreeNode<K,V> rChild;
+
     /**
      * 父节点
      */
-    protected AbstractBinaryTreeNode<K> parent;
+    protected AbstractBinaryTreeNode<K,V> parent;
+
     /**
      * 高度
      */
     protected int height;
+
     /**
      * 深度
      */
@@ -41,6 +48,15 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      */
     protected int size;
 
+    /**
+     * 获取节点key
+     *
+     * @return 节点key
+     */
+    @Override
+    public K getKey() {
+        return this.getElement().getKey();
+    }
 
     /**
      * 获取节点元素
@@ -48,35 +64,61 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @return 节点元素
      */
     @Override
-    public K getElement() {
-        return this.key;
+    public V getValue() {
+        return this.getElement().getValue();
     }
 
     /**
-     * 设置节点元素
-     *
-     * @param key 新的元素
-     * @return 返回旧的元素
+     * 设置节点value
+     * @param v 新的value
+     * @return 返回旧的value
      */
     @Override
-    public K setElement(K key) {
-        K tmp = this.key;
-        this.key = key;
-        return tmp;
+    public V setValue(V v) {
+        return this.entry.setValue(v);
     }
 
+    /**
+     * 获取节点元素
+     *
+     * @return 节点元素
+     */
+    @Override
+    public Entry<K, V> getElement() {
+        return entry;
+    }
+
+    /**
+     * 获取节点元素
+     *
+     * @param e
+     * @return 节点元素
+     */
+    @Override
+    public Entry<K, V> setElement(Entry<K, V> e) {
+        Entry<K,V> oldElement = this.entry;
+        this.entry = e;
+        return oldElement;
+    }
+    /**
+     * 是否是根结点
+     * @return 是否是根结点
+     */
+    public boolean isRoot(){
+        return getParent() == null;
+    }
 
     public Boolean hasParent() {
         return parent != null;
     }
 
 
-    public AbstractBinaryTreeNode<K> getParent() {
+    public AbstractBinaryTreeNode<K,V> getParent() {
         return parent;
     }
 
 
-    public void setParent(AbstractBinaryTreeNode<K> p) {
+    public void setParent(AbstractBinaryTreeNode<K,V> p) {
         parent = p;
     }
 
@@ -96,12 +138,12 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
     }
 
 
-    public AbstractBinaryTreeNode<K> getLeftChild() {
+    public AbstractBinaryTreeNode<K,V> getLeftChild() {
         return lChild;
     }
 
 
-    public void setLeftChild(AbstractBinaryTreeNode<K> l) {
+    public void setLeftChild(AbstractBinaryTreeNode<K,V> l) {
         lChild = l;
     }
 
@@ -116,12 +158,12 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
     }
 
 
-    public AbstractBinaryTreeNode<K> getRightChild() {
+    public AbstractBinaryTreeNode<K,V> getRightChild() {
         return rChild;
     }
 
 
-    public void setRightChild(AbstractBinaryTreeNode<K> r) {
+    public void setRightChild(AbstractBinaryTreeNode<K,V> r) {
         rChild = r;
     }
 
@@ -185,7 +227,7 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @return 该节点前继节点
      */
     @Override
-    public TreeNode<K> getPrev() {
+    public TreeNode<K,V> getPrev() {
         // 有左孩子
         if (hasLeftChild()) {
             return findMaxDescendant(getLeftChild());
@@ -195,7 +237,7 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
             return getParent();
         }
         // 没有左孩子且自己是左孩子
-        AbstractBinaryTreeNode<K> v = this;
+        AbstractBinaryTreeNode<K,V> v = this;
         while (v.isLeftChild()) {
             v = v.getParent();
         }
@@ -209,7 +251,7 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @return 直接后继节点位置
      */
     @Override
-    public AbstractBinaryTreeNode<K> getSucc() {
+    public AbstractBinaryTreeNode<K,V> getSucc() {
         // 有右孩子
         if (hasRightChild()) {
             return findMinDescendant(getRightChild());
@@ -234,7 +276,7 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
          *        /
          *      lTree
          */
-        AbstractBinaryTreeNode<K> v = this;
+        AbstractBinaryTreeNode<K,V> v = this;
         // 沿着当前节点一直往上查找 直到节点为左孩子 或者节点没有父节点
         while (v.isRightChild()) {
             v = v.getParent();
@@ -249,7 +291,7 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      *
      * @return 当前节点
      */
-    public AbstractBinaryTreeNode<K> secede() {
+    public AbstractBinaryTreeNode<K,V> secede() {
         if (hasParent()) {
             if (isLeftChild()) {
                 parent.setLeftChild(null);
@@ -271,7 +313,7 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @param l 待添加的元素
      * @return 当前节点位置
      */
-    public AbstractBinaryTreeNode<K> insertAsLeftChild(AbstractBinaryTreeNode<K> l) {
+    public AbstractBinaryTreeNode<K,V> insertAsLeftChild(AbstractBinaryTreeNode<K,V> l) {
         if (hasLeftChild()) {
             lChild.secede();
         }
@@ -292,7 +334,7 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @param r 待添加的元素
      * @return 当前节点位置
      */
-    public AbstractBinaryTreeNode<K> insertAsRightChild(AbstractBinaryTreeNode<K> r) {
+    public AbstractBinaryTreeNode<K,V> insertAsRightChild(AbstractBinaryTreeNode<K,V> r) {
         if (hasRightChild()) {
             rChild.secede();
         }
@@ -313,8 +355,8 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @return 迭代器
      */
     @Override
-    public Iterator<K> elementPreorder() {
-        List<K> list = new LinkedList<>();
+    public Iterator<TreeNode<K,V>> elementPreorder() {
+        List<TreeNode<K,V>> list = new LinkedList<>();
         preorder(list, this);
         return list.elements();
     }
@@ -325,8 +367,8 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @return 迭代器
      */
     @Override
-    public Iterator<K> elementInorder() {
-        List<K> list = new LinkedList<>();
+    public Iterator<TreeNode<K,V>> elementInorder() {
+        List<TreeNode<K,V>> list = new LinkedList<>();
         inorder(list, this);
         return list.elements();
     }
@@ -337,8 +379,8 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @return 迭代器
      */
     @Override
-    public Iterator<K> elementPostorder() {
-        List<K> list = new LinkedList<>();
+    public Iterator<TreeNode<K,V>> elementPostorder() {
+        List<TreeNode<K,V>> list = new LinkedList<>();
         postorder(list, this);
         return list.elements();
     }
@@ -349,15 +391,15 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
      * @return 迭代器
      */
     @Override
-    public Iterator<K> elementLevelorder() {
-        List<K> list = new LinkedList<>();
+    public Iterator<TreeNode<K,V>> elementLevelorder() {
+        List<TreeNode<K,V>> list = new LinkedList<>();
         levelorder(list, this);
         return list.elements();
     }
 
     /*---------------------------------------------private method---------------------------------------*/
 
-    private AbstractBinaryTreeNode<K> findMaxDescendant(AbstractBinaryTreeNode<K> v) {
+    private AbstractBinaryTreeNode<K,V> findMaxDescendant(AbstractBinaryTreeNode<K,V> v) {
         if (v != null) {
             while (v.hasRightChild()) {
                 v = v.getRightChild();
@@ -366,7 +408,7 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
         return v;
     }
 
-    private AbstractBinaryTreeNode<K> findMinDescendant(AbstractBinaryTreeNode<K> v) {
+    private AbstractBinaryTreeNode<K,V> findMinDescendant(AbstractBinaryTreeNode<K,V> v) {
         if (v != null) {
             while (v.hasLeftChild()) {
                 v = v.getLeftChild();
@@ -375,44 +417,44 @@ public abstract class AbstractBinaryTreeNode<K> implements TreeNode<K> {
         return v;
     }
 
-    private void preorder(List<K> list, AbstractBinaryTreeNode<K> v) {
+    private void preorder(List<TreeNode<K,V>> list, AbstractBinaryTreeNode<K,V> v) {
         if (v == null) {
             return;
         }
-        list.insertLast(v.getElement());
+        list.insertLast(v);
         preorder(list, v.getLeftChild());
         preorder(list, v.getRightChild());
     }
 
-    private void inorder(List<K> list, AbstractBinaryTreeNode<K> position) {
-        if (position == null) {
+    private void inorder(List<TreeNode<K,V>> list, AbstractBinaryTreeNode<K,V> v) {
+        if (v == null) {
             return;
         }
-        inorder(list, position.getLeftChild());
-        list.insertLast(position.getElement());
-        inorder(list, position.getRightChild());
+        inorder(list, v.getLeftChild());
+        list.insertLast(v);
+        inorder(list, v.getRightChild());
     }
 
-    private void postorder(List<K> list, AbstractBinaryTreeNode<K> v) {
+    private void postorder(List<TreeNode<K,V>> list, AbstractBinaryTreeNode<K,V> v) {
         if (v == null) {
             return;
         }
         postorder(list, v.getLeftChild());
         postorder(list, v.getRightChild());
-        list.insertLast(v.getElement());
+        list.insertLast(v);
     }
 
-    private void levelorder(List<K> list, AbstractBinaryTreeNode<K> v) {
-        Queue<AbstractBinaryTreeNode<K>> queue = new LinkedListQueue<>();
+    private void levelorder(List<TreeNode<K,V>> list, AbstractBinaryTreeNode<K,V> v) {
+        Queue<AbstractBinaryTreeNode<K,V>> queue = new LinkedListQueue<>();
         queue.enqueue(v);
         while (!queue.isEmpty()) {
-            AbstractBinaryTreeNode<K> position = queue.dequeue();
-            list.insertLast(position.getElement());
-            if (position.hasLeftChild()) {
-                queue.enqueue(position.getLeftChild());
+            AbstractBinaryTreeNode<K,V> node = queue.dequeue();
+            list.insertLast(node);
+            if (node.hasLeftChild()) {
+                queue.enqueue(node.getLeftChild());
             }
-            if (position.hasRightChild()) {
-                queue.enqueue(position.getRightChild());
+            if (node.hasRightChild()) {
+                queue.enqueue(node.getRightChild());
             }
         }
     }

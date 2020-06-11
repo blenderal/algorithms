@@ -1,13 +1,16 @@
 package impl.dsa.tree;
 
 
+import impl.dsa.Entry;
+import impl.dsa.EntryDefault;
+
 /**
  * @description: 二叉搜索树
  * @author: zww
  * @date: 2020/6/3
  * @version: V1.0
  */
-public class BSTree<K extends Comparable<K>> extends AbstractBSTree<K> {
+public class BSTree<K extends Comparable<K>, V> extends AbstractBSTree<K, V> {
 
     /**
      * 插入关键码
@@ -16,17 +19,18 @@ public class BSTree<K extends Comparable<K>> extends AbstractBSTree<K> {
      * @return 插入关键码对应的节点
      */
     @Override
-    public TreeNode<K> insert(K key) {
-        TreeNode<K> node;
+    public TreeNode<K, V> insert(K key, V value) {
+        Entry<K, V> entry = new EntryDefault<>(key, value);
+        TreeNode<K, V> node;
         if (isEmpty()) {
-            root = new BSTreeNode<>(key, null, null, null, true);
+            root = new BSTreeNode<>(entry, null, null, null, false);
             node = root;
         } else {
             boolean asLChild;
-            AbstractBinaryTreeNode<K> p = root;
+            AbstractBinaryTreeNode<K, V> p = root;
             while (true) {
                 p = binSearch(p, key);
-                int compare = comparator.compare(key, p.getElement());
+                int compare = comparator.compare(key, p.getKey());
                 // key小于目标节点
                 if (compare < 0) {
                     asLChild = true;
@@ -36,13 +40,13 @@ public class BSTree<K extends Comparable<K>> extends AbstractBSTree<K> {
                     asLChild = false;
                     break;
                     // key等于目标节点
-                } else{
+                } else {
                     // 替换旧的值
-                    p.setElement(key);
+                    p.setValue(value);
                     return p;
                 }
             }
-            node = new BSTreeNode<>(key, null, null, p, asLChild);
+            node = new BSTreeNode<>(entry, null, null, p, asLChild);
         }
         return node;
     }
@@ -54,21 +58,21 @@ public class BSTree<K extends Comparable<K>> extends AbstractBSTree<K> {
      * @return 删除关键码对应的节点的父节点
      */
     @Override
-    public TreeNode<K> remove(K key) {
-        AbstractBinaryTreeNode<K> p;
+    public TreeNode<K, V> remove(K key) {
+        AbstractBinaryTreeNode<K, V> p;
         if (isEmpty()) {
             return null;
         }
         // 待删除的节点
-        AbstractBinaryTreeNode<K> v = binSearch(root, key);
+        AbstractBinaryTreeNode<K, V> v = binSearch(root, key);
         // 查找不成功
-        if (comparator.compare(key, v.getElement()) != 0) {
+        if (comparator.compare(key, v.getKey()) != 0) {
             return null;
         }
         // 若v的左子树存在
         if (v.hasLeftChild()) {
             // 找到v的前驱节点
-            AbstractBinaryTreeNode<K> w = (AbstractBinaryTreeNode<K>) v.getPrev();
+            AbstractBinaryTreeNode<K, V> w = (AbstractBinaryTreeNode<K, V>) v.getPrev();
             // 调换两者的数据
             w.setElement(v.setElement(w.getElement()));
             // 将待删除节点指向w节点
@@ -77,7 +81,7 @@ public class BSTree<K extends Comparable<K>> extends AbstractBSTree<K> {
         // 至此待删除的v节点至多只有一个孩子
         // 删除v节点用其孩子节点取代之
         p = v.getParent();
-        AbstractBinaryTreeNode<K> c = v.hasLeftChild() ? v.getLeftChild() : v.getRightChild();
+        AbstractBinaryTreeNode<K, V> c = v.hasLeftChild() ? v.getLeftChild() : v.getRightChild();
         // 若v为根节点
         if (p == null) {
             if (c != null) {

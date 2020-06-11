@@ -1,14 +1,17 @@
 package impl.dsa.tree;
 
+import impl.dsa.Entry;
+
 /**
  * @description: 二叉搜索树节点
  * @author: zww
  * @date: 2020/6/3
  * @version: V1.0
  */
-public class BSTreeNode<K extends Comparable<K>> extends AbstractBinaryTreeNode<K>{
+public class BSTreeNode<K extends Comparable<K>,V> extends AbstractBinaryTreeNode<K,V>{
 
-    public BSTreeNode(K key, AbstractBinaryTreeNode<K> lChild, AbstractBinaryTreeNode<K> rChild, AbstractBinaryTreeNode<K> parent, boolean asLChild) {
+    public BSTreeNode(Entry<K,V> entry, AbstractBinaryTreeNode<K,V> lChild, AbstractBinaryTreeNode<K,V> rChild, AbstractBinaryTreeNode<K,V> parent, boolean asLChild) {
+        super(entry, lChild, rChild, parent, asLChild);
         size = 1;
         height = 0;
         depth = 0;
@@ -22,8 +25,7 @@ public class BSTreeNode<K extends Comparable<K>> extends AbstractBinaryTreeNode<
                 parent.insertAsRightChild(this);
             }
         }
-
-        this.key = key;
+        this.entry = entry;
         if (lChild != null) {
             insertAsLeftChild(lChild);
         }

@@ -8,7 +8,7 @@ import impl.dsa.*;
  * @date: 2020/5/19
  * @version: V1.0
  */
-public abstract class AbstractBSTree<K extends Comparable<K>> extends AbstractBinaryTree<K> {
+public abstract class AbstractBSTree<K extends Comparable<K>,V> extends AbstractBinaryTree<K,V> {
     /**
      * 比较器
      */
@@ -21,12 +21,12 @@ public abstract class AbstractBSTree<K extends Comparable<K>> extends AbstractBi
      * @return 关键码对应的节点
      */
     @Override
-    public TreeNode<K> find(K key) {
+    public TreeNode<K,V> find(K key) {
         if (isEmpty()) {
             return null;
         }
-        AbstractBinaryTreeNode<K> node = binSearch(root, key);
-        return comparator.compare(key, node.getElement()) == 0 ? node : null;
+        AbstractBinaryTreeNode<K,V> node = binSearch(root, key);
+        return comparator.compare(key, node.getKey()) == 0 ? node : null;
     }
 
     /**
@@ -36,10 +36,10 @@ public abstract class AbstractBSTree<K extends Comparable<K>> extends AbstractBi
      * @param key  关键码
      * @return 关键码对应的节点
      */
-    protected AbstractBinaryTreeNode<K> binSearch(AbstractBinaryTreeNode<K> root, K key) {
-        AbstractBinaryTreeNode<K> u = root;
+    protected AbstractBinaryTreeNode<K,V> binSearch(AbstractBinaryTreeNode<K,V> root, K key) {
+        AbstractBinaryTreeNode<K,V> u = root;
         while (true) {
-            int compare = comparator.compare(key, u.getElement());
+            int compare = comparator.compare(key, u.getKey());
             // key小于当前节点值
             if (compare < 0) {
                 if (u.hasLeftChild()) {
@@ -59,6 +59,21 @@ public abstract class AbstractBSTree<K extends Comparable<K>> extends AbstractBi
                 return u;
             }
         }
+    }
+
+    /**
+     * 查找树中最大节点
+     * @return 树中最大节点
+     */
+    public AbstractBinaryTreeNode<K,V> findMax(){
+        if(isEmpty()){
+            return null;
+        }
+        AbstractBinaryTreeNode<K,V> max = root;
+        while (max.hasRightChild()){
+            max = max.getRightChild();
+        }
+        return max;
     }
 
 }
