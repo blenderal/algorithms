@@ -14,11 +14,11 @@ public class BTreeTest {
         BTree<Integer> bTree = new BTree<>(5);
         for(int i=0;i<60;i++){
             bTree.insert(i);
-            System.out.println(bTree);
         }
-        for(int i=59;i>=0;i--){
-            bTree.remove(i);
-            System.out.println(bTree);
-        }
+        System.out.println(bTree);
+//        for(int i=59;i>=0;i--){
+//            bTree.remove(i);
+//            System.out.println(bTree);
+//        }
     }
 }

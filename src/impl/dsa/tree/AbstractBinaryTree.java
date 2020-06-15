@@ -24,7 +24,7 @@ public abstract class AbstractBinaryTree<K,V> implements Tree<K,V>{
      * @return 根结点
      */
     @Override
-    public TreeNode<K,V> getRoot() {
+    public AbstractBinaryTreeNode<K,V> getRoot() {
         return root;
     }
 
@@ -190,9 +190,9 @@ public abstract class AbstractBinaryTree<K,V> implements Tree<K,V>{
     /**
      * 删除关键码
      * @param key 关键码
-     * @return 删除关键码对应的节点的父节点
+     * @return 是否删除成功
      */
-    abstract TreeNode<K,V> remove(K key);
+    abstract Boolean remove(K key);
 
 
 }

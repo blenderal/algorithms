@@ -11,6 +11,26 @@ import impl.dsa.EntryDefault;
  * @version: V1.0
  */
 public class BSTree<K extends Comparable<K>, V> extends AbstractBSTree<K, V> {
+    /**
+     * 删除节点后替代节点；
+     */
+    protected AbstractBinaryTreeNode<K,V> r;
+
+    /**
+     * 被删除节点的父亲节点
+     */
+    protected AbstractBinaryTreeNode<K,V> removedP;
+
+
+    /**
+     * 获取根结点
+     *
+     * @return 根结点
+     */
+    @Override
+    public BSTreeNode<K, V> getRoot() {
+        return (BSTreeNode<K, V>) super.getRoot();
+    }
 
     /**
      * 插入关键码
@@ -19,25 +39,25 @@ public class BSTree<K extends Comparable<K>, V> extends AbstractBSTree<K, V> {
      * @return 插入关键码对应的节点
      */
     @Override
-    public TreeNode<K, V> insert(K key, V value) {
+    public BSTreeNode<K, V> insert(K key, V value) {
         Entry<K, V> entry = new EntryDefault<>(key, value);
-        TreeNode<K, V> node;
+        BSTreeNode<K, V> node;
         if (isEmpty()) {
             root = new BSTreeNode<>(entry, null, null, null, false);
-            node = root;
+            node =getRoot();
         } else {
-            boolean asLChild;
-            AbstractBinaryTreeNode<K, V> p = root;
+            boolean asLeftChild;
+            BSTreeNode<K, V> p = getRoot();
             while (true) {
-                p = binSearch(p, key);
+                p = (BSTreeNode<K, V>)binSearch(p, key);
                 int compare = comparator.compare(key, p.getKey());
                 // key小于目标节点
                 if (compare < 0) {
-                    asLChild = true;
+                    asLeftChild = true;
                     break;
                     // key大于目标节点
                 } else if (compare > 0) {
-                    asLChild = false;
+                    asLeftChild = false;
                     break;
                     // key等于目标节点
                 } else {
@@ -46,7 +66,7 @@ public class BSTree<K extends Comparable<K>, V> extends AbstractBSTree<K, V> {
                     return p;
                 }
             }
-            node = new BSTreeNode<>(entry, null, null, p, asLChild);
+            node = new BSTreeNode<>(entry, null, null, p, asLeftChild);
         }
         return node;
     }
@@ -55,19 +75,18 @@ public class BSTree<K extends Comparable<K>, V> extends AbstractBSTree<K, V> {
      * 删除关键码
      *
      * @param key 关键码
-     * @return 删除关键码对应的节点的父节点
+     * @return 是否删除成功
      */
     @Override
-    public TreeNode<K, V> remove(K key) {
-        AbstractBinaryTreeNode<K, V> p;
+    public Boolean remove(K key) {
         if (isEmpty()) {
-            return null;
+            return false;
         }
         // 待删除的节点
-        AbstractBinaryTreeNode<K, V> v = binSearch(root, key);
+        AbstractBinaryTreeNode<K, V> v = binSearch(getRoot(), key);
         // 查找不成功
         if (comparator.compare(key, v.getKey()) != 0) {
-            return null;
+            return false;
         }
         // 若v的左子树存在
         if (v.hasLeftChild()) {
@@ -80,10 +99,11 @@ public class BSTree<K extends Comparable<K>, V> extends AbstractBSTree<K, V> {
         }
         // 至此待删除的v节点至多只有一个孩子
         // 删除v节点用其孩子节点取代之
-        p = v.getParent();
+        removedP = v.getParent();
         AbstractBinaryTreeNode<K, V> c = v.hasLeftChild() ? v.getLeftChild() : v.getRightChild();
+        r = c;
         // 若v为根节点
-        if (p == null) {
+        if (removedP == null) {
             if (c != null) {
                 c.secede();
             }
@@ -94,14 +114,30 @@ public class BSTree<K extends Comparable<K>, V> extends AbstractBSTree<K, V> {
                 // 脱离待删除节点与其父亲节点的关系
                 v.secede();
                 // 将待删除节点的孩子节点作为其祖父节点的孩子
-                p.insertAsLeftChild(c);
+                removedP.insertAsLeftChild(c);
             } else {
                 // 脱离待删除节点与其父亲节点的关系
                 v.secede();
                 // 将待删除节点的孩子节点作为其祖父节点的孩子
-                p.insertAsRightChild(c);
+                removedP.insertAsRightChild(c);
             }
         }
-        return p;
+        return true;
+    }
+
+    /**
+     * 查找树中最大节点
+     * @return 树中最大节点
+     */
+    @Override
+    public AbstractBinaryTreeNode<K,V> findMax(){
+        if(isEmpty()){
+            return null;
+        }
+        AbstractBinaryTreeNode<K,V> max = getRoot();
+        while (max.hasRightChild()){
+            max = max.getRightChild();
+        }
+        return max;
     }
 }

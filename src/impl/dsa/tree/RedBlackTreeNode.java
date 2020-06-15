@@ -20,12 +20,6 @@ public class RedBlackTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, 
      */
     protected int blackHeight;
 
-    public RedBlackTreeNode(Entry<K, V> entry, RBColor rbColor) {
-        super(entry, null, null, null, false);
-        this.blackHeight = -1;
-        this.rbColor = RBColor.RB_RED;
-    }
-
     public RedBlackTreeNode(Entry<K, V> entry, AbstractBinaryTreeNode<K, V> lChild, AbstractBinaryTreeNode<K, V> rChild, AbstractBinaryTreeNode<K, V> parent, boolean asLChild) {
         super(entry, lChild, rChild, parent, asLChild);
         this.blackHeight = 0;
@@ -62,8 +56,8 @@ public class RedBlackTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, 
      */
     public void updateBlackHeight() {
         int bh = Math.max(
-                hasLeftChild() ? ((RedBlackTreeNode<K, V>) getLeftChild()).getBlackHeight() : 0,
-                hasRightChild() ? ((RedBlackTreeNode<K, V>) getRightChild()).getBlackHeight() : 0);
+                hasLeftChild() ? (getLeftChild()).getBlackHeight() : 0,
+                hasRightChild() ? (getRightChild()).getBlackHeight() : 0);
         this.blackHeight = isBlack() ? bh + 1 : bh;
     }
 
@@ -72,10 +66,10 @@ public class RedBlackTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, 
     public void updateHeight() {
         height = 0;
         if (hasLeftChild()) {
-            height = Math.max((1 + lChild.getHeight()), height);
+            height = Math.max((1 + getLeftChild().getHeight()), height);
         }
         if (hasRightChild()) {
-            height = Math.max((1 + rChild.getHeight()), height);
+            height = Math.max((1 + getRightChild().getHeight()), height);
         }
         updateBlackHeight();
         if (hasParent()) {
@@ -83,4 +77,53 @@ public class RedBlackTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, 
         }
     }
 
+    /**
+     * 黑高度是否平衡
+     *
+     * @return 黑高度是否平衡
+     */
+    public boolean isBalanced() {
+        if (hasLeftChild() && (getLeftChild()).getBlackHeight() + (isBlack() ? 1 : 0) != blackHeight) {
+            return false;
+        }
+        if (hasRightChild() && (getRightChild()).getBlackHeight() + (isBlack() ? 1 : 0) != blackHeight) {
+            return false;
+        }
+        return (isBlack() ? 1 : 0) == blackHeight;
+    }
+
+    @Override
+    public RedBlackTreeNode<K, V> getParent() {
+        return (RedBlackTreeNode<K, V>) super.getParent();
+    }
+
+    @Override
+    public RedBlackTreeNode<K, V> getLeftChild() {
+        return (RedBlackTreeNode<K, V>) super.getLeftChild();
+    }
+
+    @Override
+    public RedBlackTreeNode<K, V> getRightChild() {
+        return (RedBlackTreeNode<K, V>) super.getRightChild();
+    }
+
+    /**
+     * 获取该节点前继节点
+     *
+     * @return 该节点前继节点
+     */
+    @Override
+    public RedBlackTreeNode<K, V> getPrev() {
+        return (RedBlackTreeNode<K, V>) super.getPrev();
+    }
+
+    /**
+     * 中序遍历意义下当前节点的直接后继
+     *
+     * @return 直接后继节点位置
+     */
+    @Override
+    public RedBlackTreeNode<K, V> getSucc() {
+        return (RedBlackTreeNode<K, V>) super.getSucc();
+    }
 }

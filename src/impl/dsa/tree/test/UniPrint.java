@@ -84,7 +84,7 @@ public class UniPrint {
      * @return 索引在打印时的位置表
      */
     public static <K extends Comparable<K>, V> Object[][] getKeyIndexTable(AbstractBinaryTree<K, V> tree, String apd) {
-        AbstractBinaryTreeNode<K, V> root = (AbstractBinaryTreeNode<K, V>) tree.getRoot();
+        AbstractBinaryTreeNode<K, V> root = tree.getRoot();
         int height = root.getHeight();
         Object[][] table = new Object[height + 1][(int) Math.pow(2, height + 1) - 1];
         Iterator<TreeNode<K, V>> iterator = tree.levelorder();

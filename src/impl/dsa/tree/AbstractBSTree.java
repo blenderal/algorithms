@@ -25,7 +25,7 @@ public abstract class AbstractBSTree<K extends Comparable<K>,V> extends Abstract
         if (isEmpty()) {
             return null;
         }
-        AbstractBinaryTreeNode<K,V> node = binSearch(root, key);
+        AbstractBinaryTreeNode<K,V> node = binSearch(getRoot(), key);
         return comparator.compare(key, node.getKey()) == 0 ? node : null;
     }
 
@@ -62,18 +62,9 @@ public abstract class AbstractBSTree<K extends Comparable<K>,V> extends Abstract
     }
 
     /**
-     * 查找树中最大节点
-     * @return 树中最大节点
+     *  查找最大节点
+     * @return 最大节点
      */
-    public AbstractBinaryTreeNode<K,V> findMax(){
-        if(isEmpty()){
-            return null;
-        }
-        AbstractBinaryTreeNode<K,V> max = root;
-        while (max.hasRightChild()){
-            max = max.getRightChild();
-        }
-        return max;
-    }
+   public abstract AbstractBinaryTreeNode<K,V> findMax();
 
 }

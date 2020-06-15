@@ -1,16 +1,13 @@
 package impl.dsa.tree;
 
 
-import impl.dsa.Entry;
-import impl.dsa.EntryDefault;
-
 /**
  * @description: AVL树
  * @author: zww
  * @date: 2020/5/19
  * @version: V1.0
  */
-public class AVLTree<K extends Comparable<K>,V> extends BSTree<K,V> {
+public class AVLTree<K extends Comparable<K>, V> extends BSTree<K, V> {
     /**
      * 插入节点
      *
@@ -18,14 +15,17 @@ public class AVLTree<K extends Comparable<K>,V> extends BSTree<K,V> {
      * @return 插入关键码对应的节点
      */
     @Override
-    public TreeNode<K,V> insert(K key,V value) {
-        AbstractBinaryTreeNode<K,V> v = (AbstractBinaryTreeNode<K,V>) super.insert(key,value);
-        AbstractBinaryTreeNode<K,V> target = binSearch(root,key);
-        if(target.getValue().equals(key) ){
+    public BSTreeNode<K, V> insert(K key, V value) {
+        TreeNode<K, V> target = null;
+        if (!isEmpty()) {
+            target = find(key);
+        }
+        BSTreeNode<K, V> v = super.insert(key, value);
+        if (target != null) {
             return v;
         }
         // 从插入节点的父亲节点开始重新平衡
-        AbstractBinaryTreeNode<K,V> z = v.getParent();
+        AbstractBinaryTreeNode<K, V> z = v.getParent();
         if (z != null) {
             while (true) {
                 // 若z节点失去平衡，则通过旋转使之重新平衡
@@ -55,32 +55,32 @@ public class AVLTree<K extends Comparable<K>,V> extends BSTree<K,V> {
      * @return 删除掉的节点的父节点
      */
     @Override
-    public TreeNode<K,V> remove(K key) {
-        AbstractBinaryTreeNode<K,V> e = (AbstractBinaryTreeNode<K,V>) super.remove(key);
-        // 从删除节点的父亲开始重新平衡化
-        AbstractBinaryTreeNode<K,V> z = e;
-        if (e != null) {
-            while (true) {
-                if (!isBalanced(z)) {
-                    z = rotate(tallerChild(tallerChild(z)));
-                }
-                if (!z.hasParent()) {
-                    root = z;
-                    break;
-                }
-                z = z.getParent();
-            }
+    public Boolean remove(K key) {
+        if (!super.remove(key)) {
+            return false;
         }
-        return e;
+        // 从删除节点的父亲开始重新平衡化
+        AbstractBinaryTreeNode<K, V> z = removedP;
+        while (true) {
+            if (!isBalanced(z)) {
+                z = rotate(tallerChild(tallerChild(z)));
+            }
+            if (!z.hasParent()) {
+                root = z;
+                break;
+            }
+            z = z.getParent();
+        }
+        return true;
     }
 
     /**
      * 判断以v为根节点的子树是否平衡
      *
-     * @param v
-     * @return
+     * @param v v
+     * @return 以v为根节点的子树是否平衡
      */
-    private boolean isBalanced(AbstractBinaryTreeNode<K,V> v) {
+    private boolean isBalanced(AbstractBinaryTreeNode<K, V> v) {
         if (null == v) {
             return true;
         }
@@ -96,7 +96,7 @@ public class AVLTree<K extends Comparable<K>,V> extends BSTree<K,V> {
      * @param v 节点v
      * @return 更高的子树
      */
-    private AbstractBinaryTreeNode<K,V> tallerChild(AbstractBinaryTreeNode<K,V> v) {
+    private AbstractBinaryTreeNode<K, V> tallerChild(AbstractBinaryTreeNode<K, V> v) {
         int lh = v.hasLeftChild() ? v.getLeftChild().getHeight() : -1;
         int rh = v.hasRightChild() ? v.getRightChild().getHeight() : -1;
         if (lh > rh) {

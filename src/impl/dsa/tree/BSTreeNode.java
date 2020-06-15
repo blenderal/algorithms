@@ -33,4 +33,39 @@ public class BSTreeNode<K extends Comparable<K>,V> extends AbstractBinaryTreeNod
             insertAsRightChild(rChild);
         }
     }
+
+    @Override
+    public BSTreeNode<K, V> getParent() {
+        return (BSTreeNode<K, V>)super.getParent();
+    }
+
+    @Override
+    public BSTreeNode<K, V> getLeftChild() {
+        return (BSTreeNode<K, V>)super.getLeftChild();
+    }
+
+    @Override
+    public BSTreeNode<K, V> getRightChild() {
+        return (BSTreeNode<K, V>)super.getRightChild();
+    }
+
+    /**
+     * 获取该节点前继节点
+     *
+     * @return 该节点前继节点
+     */
+    @Override
+    public BSTreeNode<K, V> getPrev() {
+        return (BSTreeNode<K, V>)super.getPrev();
+    }
+
+    /**
+     * 中序遍历意义下当前节点的直接后继
+     *
+     * @return 直接后继节点位置
+     */
+    @Override
+    public BSTreeNode<K, V> getSucc() {
+        return (BSTreeNode<K, V>)super.getSucc();
+    }
 }

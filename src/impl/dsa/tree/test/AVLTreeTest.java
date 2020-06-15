@@ -15,6 +15,7 @@ public class AVLTreeTest {
         AVLTree<Integer, Integer> tree = new AVLTree<>();
         for (int i = 0; i < 49; i++) {
             tree.insert(new Random().nextInt(49), 1);
+//            UniPrint.printTree(tree);
         }
         UniPrint.printTree(tree);
         for (int i = 0; i < 49; i++) {
