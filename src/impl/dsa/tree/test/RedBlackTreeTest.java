@@ -1,6 +1,6 @@
 package impl.dsa.tree.test;
 
-import impl.dsa.tree.RedBlackTree;
+import impl.dsa.tree.RBTree;
 
 import java.util.Random;
 
@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class RedBlackTreeTest {
     public static void main(String[] args) {
-        RedBlackTree<Integer, Integer> tree = new RedBlackTree<>();
+        RBTree<Integer, Integer> tree = new RBTree<>();
 ///        tree.insert(6, 6);
 //        tree.insert(9, 9);
 //        tree.insert(7, 7);

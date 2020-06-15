@@ -3,7 +3,6 @@ package impl.dsa.tree;
 import impl.dsa.Entry;
 import impl.dsa.EntryDefault;
 import impl.dsa.RBColor;
-import impl.dsa.tree.test.UniPrint;
 
 /**
  * @description: 红黑树
@@ -11,7 +10,7 @@ import impl.dsa.tree.test.UniPrint;
  * @date: 2020/5/19
  * @version: V1.0
  */
-public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
+public class RBTree<K extends Comparable<K>, V> extends BSTree<K, V> {
 
     /**
      * 获取根结点
@@ -19,8 +18,8 @@ public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
      * @return 根结点
      */
     @Override
-    public RedBlackTreeNode<K, V> getRoot() {
-        return (RedBlackTreeNode<K, V>) super.getRoot();
+    public RBTreeNode<K, V> getRoot() {
+        return (RBTreeNode<K, V>) super.getRoot();
     }
 
     /**
@@ -31,17 +30,17 @@ public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
      * @return 插入关键码对应的节点
      */
     @Override
-    public RedBlackTreeNode<K, V> insert(K key, V value) {
+    public RBTreeNode<K, V> insert(K key, V value) {
         Entry<K, V> entry = new EntryDefault<>(key, value);
-        RedBlackTreeNode<K, V> v;
+        RBTreeNode<K, V> v;
         if (isEmpty()) {
-            root = new RedBlackTreeNode<>(entry, null, null, null, false);
+            root = new RBTreeNode<>(entry, null, null, null, false);
             v = getRoot();
         } else {
             boolean asLeftChild;
-            RedBlackTreeNode<K, V> p = getRoot();
+            RBTreeNode<K, V> p = getRoot();
             while (true) {
-                p = (RedBlackTreeNode<K, V>) binSearch(p, key);
+                p = (RBTreeNode<K, V>) binSearch(p, key);
                 int compare = comparator.compare(key, p.getKey());
                 // key小于目标节点
                 if (compare < 0) {
@@ -58,7 +57,7 @@ public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
                     return p;
                 }
             }
-            v = new RedBlackTreeNode<>(entry, null, null, p, asLeftChild);
+            v = new RBTreeNode<>(entry, null, null, p, asLeftChild);
         }
         solveDoubleRed(v);
         return v;
@@ -82,10 +81,10 @@ public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
             getRoot().updateBlackHeight();
             return null;
         }
-        if (((RedBlackTreeNode<K, V>) removedP).isBalanced()) {
+        if (((RBTreeNode<K, V>) removedP).isBalanced()) {
             return true;
         }
-        RedBlackTreeNode<K, V> replacedNode = (RedBlackTreeNode<K, V>) r;
+        RBTreeNode<K, V> replacedNode = (RBTreeNode<K, V>) r;
         // 如果替代节点为红节点 则被删除的节点必为黑节点
         if (replacedNode != null && !replacedNode.isBlack()) {
             // 将替代节点变为红色
@@ -114,18 +113,18 @@ public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
      *
      * @param v 节点v
      */
-    private void solveDoubleRed(RedBlackTreeNode<K, V> v) {
+    private void solveDoubleRed(RBTreeNode<K, V> v) {
         if (v.isRoot()) {
             v.setRbColor(RBColor.RB_BLACK);
             v.setBlackHeight(v.getBlackHeight() + 1);
             return;
         }
-        RedBlackTreeNode<K, V> p = v.getParent();
+        RBTreeNode<K, V> p = v.getParent();
         if (p.isBlack()) {
             return;
         }
-        RedBlackTreeNode<K, V> g = p.getParent();
-        RedBlackTreeNode<K, V> u = p.isLeftChild() ? g.getRightChild() : g.getLeftChild();
+        RBTreeNode<K, V> g = p.getParent();
+        RBTreeNode<K, V> u = p.isLeftChild() ? g.getRightChild() : g.getLeftChild();
         // RR-1 u为黑节点
         if (u == null || u.isBlack()) {
             g.setRbColor(RBColor.RB_RED);
@@ -137,7 +136,7 @@ public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
                 v.setRbColor(RBColor.RB_BLACK);
             }
             // 3+4重构
-            RedBlackTreeNode<K, V> r = (RedBlackTreeNode<K, V>) rotate(v);
+            RBTreeNode<K, V> r = (RBTreeNode<K, V>) rotate(v);
             if (r.isRoot()) {
                 root = r;
             }
@@ -157,14 +156,14 @@ public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
      *
      * @param r 节点r
      */
-    private void solveDoubleBlack(RedBlackTreeNode<K, V> r) {
-        RedBlackTreeNode<K, V> p = r == null ? (RedBlackTreeNode<K, V>) removedP : r.getParent();
+    private void solveDoubleBlack(RBTreeNode<K, V> r) {
+        RBTreeNode<K, V> p = r == null ? (RBTreeNode<K, V>) removedP : r.getParent();
         if (p == null) {
             return;
         }
-        RedBlackTreeNode<K, V> s = r == p.getRightChild() ? p.getLeftChild() : p.getRightChild();
+        RBTreeNode<K, V> s = r == p.getRightChild() ? p.getLeftChild() : p.getRightChild();
         if (s.isBlack()) {
-            RedBlackTreeNode<K, V> t = null;
+            RBTreeNode<K, V> t = null;
             if (s.hasRightChild() && !s.getRightChild().isBlack()) {
                 t = s.getRightChild();
             }
@@ -182,7 +181,7 @@ public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
                 }
                 t.updateBlackHeight();
                 p.setRbColor(RBColor.RB_BLACK);
-                RedBlackTreeNode<K,V> b = (RedBlackTreeNode<K,V>)rotate(t);
+                RBTreeNode<K,V> b = (RBTreeNode<K,V>)rotate(t);
                 if(b.isRoot()){
                     root = b;
                 }
@@ -204,8 +203,8 @@ public class RedBlackTree<K extends Comparable<K>, V> extends BSTree<K, V> {
         } else {
             s.setRbColor(RBColor.RB_BLACK);
             p.setRbColor(RBColor.RB_RED);
-            RedBlackTreeNode<K, V> t = s.isLeftChild() ? s.getLeftChild() : s.getRightChild();
-            RedBlackTreeNode<K,V> b = (RedBlackTreeNode<K,V>)rotate(t);
+            RBTreeNode<K, V> t = s.isLeftChild() ? s.getLeftChild() : s.getRightChild();
+            RBTreeNode<K,V> b = (RBTreeNode<K,V>)rotate(t);
             if(b.isRoot()){
                 root = b;
             }

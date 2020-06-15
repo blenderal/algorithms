@@ -9,7 +9,7 @@ import impl.dsa.RBColor;
  * @date: 2020/6/4
  * @version: V1.0
  */
-public class RedBlackTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, V> {
+public class RBTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, V> {
     /**
      * 节点颜色
      */
@@ -20,7 +20,7 @@ public class RedBlackTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, 
      */
     protected int blackHeight;
 
-    public RedBlackTreeNode(Entry<K, V> entry, AbstractBinaryTreeNode<K, V> lChild, AbstractBinaryTreeNode<K, V> rChild, AbstractBinaryTreeNode<K, V> parent, boolean asLChild) {
+    public RBTreeNode(Entry<K, V> entry, AbstractBinaryTreeNode<K, V> lChild, AbstractBinaryTreeNode<K, V> rChild, AbstractBinaryTreeNode<K, V> parent, boolean asLChild) {
         super(entry, lChild, rChild, parent, asLChild);
         this.blackHeight = 0;
         this.rbColor = RBColor.RB_RED;
@@ -93,18 +93,18 @@ public class RedBlackTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, 
     }
 
     @Override
-    public RedBlackTreeNode<K, V> getParent() {
-        return (RedBlackTreeNode<K, V>) super.getParent();
+    public RBTreeNode<K, V> getParent() {
+        return (RBTreeNode<K, V>) super.getParent();
     }
 
     @Override
-    public RedBlackTreeNode<K, V> getLeftChild() {
-        return (RedBlackTreeNode<K, V>) super.getLeftChild();
+    public RBTreeNode<K, V> getLeftChild() {
+        return (RBTreeNode<K, V>) super.getLeftChild();
     }
 
     @Override
-    public RedBlackTreeNode<K, V> getRightChild() {
-        return (RedBlackTreeNode<K, V>) super.getRightChild();
+    public RBTreeNode<K, V> getRightChild() {
+        return (RBTreeNode<K, V>) super.getRightChild();
     }
 
     /**
@@ -113,8 +113,8 @@ public class RedBlackTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, 
      * @return 该节点前继节点
      */
     @Override
-    public RedBlackTreeNode<K, V> getPrev() {
-        return (RedBlackTreeNode<K, V>) super.getPrev();
+    public RBTreeNode<K, V> getPrev() {
+        return (RBTreeNode<K, V>) super.getPrev();
     }
 
     /**
@@ -123,7 +123,7 @@ public class RedBlackTreeNode<K extends Comparable<K>, V> extends BSTreeNode<K, 
      * @return 直接后继节点位置
      */
     @Override
-    public RedBlackTreeNode<K, V> getSucc() {
-        return (RedBlackTreeNode<K, V>) super.getSucc();
+    public RBTreeNode<K, V> getSucc() {
+        return (RBTreeNode<K, V>) super.getSucc();
     }
 }

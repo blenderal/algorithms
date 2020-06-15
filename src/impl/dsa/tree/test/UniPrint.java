@@ -44,11 +44,11 @@ public class UniPrint {
     }
 
 
-    public static <K extends Comparable<K>, V> void printTree(RedBlackTree<K, V> tree) {
+    public static <K extends Comparable<K>, V> void printTree(RBTree<K, V> tree) {
         if (tree.isEmpty()) {
             return;
         }
-        RedBlackTreeNode<K, V> max = (RedBlackTreeNode<K, V>) tree.findMax();
+        RBTreeNode<K, V> max = (RBTreeNode<K, V>) tree.findMax();
         int length = max.getKey().toString().length();
         String apd = getApd(length);
         String empty = getEmpty(length);
@@ -63,7 +63,7 @@ public class UniPrint {
                     System.out.print(object);
                     continue;
                 }
-                RedBlackTreeNode<K, V> rbNode = (RedBlackTreeNode<K, V>) object;
+                RBTreeNode<K, V> rbNode = (RBTreeNode<K, V>) object;
                 StringBuilder key = new StringBuilder(rbNode.getKey().toString());
                 int keyLength = key.length();
                 for (int i = 0; i < length - keyLength; i++) {
