@@ -2,7 +2,6 @@ package impl.dsa.tree;
 
 import impl.dsa.Entry;
 import impl.dsa.EntryDefault;
-import impl.dsa.RBColor;
 
 /**
  * @description: 红黑树

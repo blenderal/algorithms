@@ -1,4 +1,4 @@
-package impl.dsa;
+package impl.dsa.tree;
 
 /**
  * @description: 红黑树颜色
