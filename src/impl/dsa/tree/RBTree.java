@@ -78,7 +78,7 @@ public class RBTree<K extends Comparable<K>, V> extends BSTree<K, V> {
         if (removedP == null) {
             getRoot().setRbColor(RBColor.RB_BLACK);
             getRoot().updateBlackHeight();
-            return null;
+            return true;
         }
         if (((RBTreeNode<K, V>) removedP).isBalanced()) {
             return true;
