@@ -38,23 +38,19 @@ public class RBTree<K extends Comparable<K>, V> extends BSTree<K, V> {
         } else {
             boolean asLeftChild;
             RBTreeNode<K, V> p = getRoot();
-            while (true) {
-                p = (RBTreeNode<K, V>) binSearch(p, key);
-                int compare = comparator.compare(key, p.getKey());
-                // key小于目标节点
-                if (compare < 0) {
-                    asLeftChild = true;
-                    break;
-                    // key大于目标节点
-                } else if (compare > 0) {
-                    asLeftChild = false;
-                    break;
-                    // key等于目标节点
-                } else {
-                    // 替换旧的值
-                    p.setValue(value);
-                    return p;
-                }
+            p = (RBTreeNode<K, V>) binSearch(p, key);
+            int compare = comparator.compare(key, p.getKey());
+            // key小于目标节点
+            if (compare < 0) {
+                asLeftChild = true;
+                // key大于目标节点
+            } else if (compare > 0) {
+                asLeftChild = false;
+                // key等于目标节点
+            } else {
+                // 替换旧的值
+                p.setValue(value);
+                return p;
             }
             v = new RBTreeNode<>(entry, null, null, p, asLeftChild);
         }

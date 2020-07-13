@@ -48,23 +48,19 @@ public class BSTree<K extends Comparable<K>, V> extends AbstractBSTree<K, V> {
         } else {
             boolean asLeftChild;
             BSTreeNode<K, V> p = getRoot();
-            while (true) {
-                p = (BSTreeNode<K, V>)binSearch(p, key);
-                int compare = comparator.compare(key, p.getKey());
-                // key小于目标节点
-                if (compare < 0) {
-                    asLeftChild = true;
-                    break;
-                    // key大于目标节点
-                } else if (compare > 0) {
-                    asLeftChild = false;
-                    break;
-                    // key等于目标节点
-                } else {
-                    // 替换旧的值
-                    p.setValue(value);
-                    return p;
-                }
+            p = (BSTreeNode<K, V>) binSearch(p, key);
+            int compare = comparator.compare(key, p.getKey());
+            // key小于目标节点
+            if (compare < 0) {
+                asLeftChild = true;
+                // key大于目标节点
+            } else if (compare > 0) {
+                asLeftChild = false;
+                // key等于目标节点
+            } else {
+                // 替换旧的值
+                p.setValue(value);
+                return p;
             }
             node = new BSTreeNode<>(entry, null, null, p, asLeftChild);
         }
