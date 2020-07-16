@@ -41,7 +41,7 @@ package leetcode.Array;
  * @date: 2020/7/8
  * @version: V1.0
  */
-public class RemoveDuplicatesII {
+public class RemoveDuplicates2 {
     public static void main(String[] args) {
         int[] nums = new int[]{1,1,1,2,2,3};
         System.out.println(removeDuplicates(nums));

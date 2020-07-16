@@ -13,11 +13,15 @@ public class Classification {
      * 双指针法:
      * {@link RemoveElement}
      * {@link RemoveDuplicates}
-     * {@link RemoveDuplicatesII}
+     * {@link RemoveDuplicates2}
      *
      * 环状替代:
-     *  {@link Rotate}
+     * {@link Rotate}
      *
+     * 原地哈希:
+     * {@link FirstMissingPositive}
      *
+     * 计数排序
+     * {@link HIndex}
      */
 }
