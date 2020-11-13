@@ -1,4 +1,4 @@
-package impl.dsa.kafka;
+package other.kafka;
 
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.atomic.AtomicLong;
@@ -112,9 +112,4 @@ public class TimingWheel {
             }
         }
     }
-
-    public long getCurrentTime() {
-        return currentTime;
-    }
-
 }

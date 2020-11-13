@@ -1,4 +1,4 @@
-package impl.dsa.kafka;
+package other.kafka;
 
 import java.util.concurrent.*;
 
