@@ -70,6 +70,9 @@ public class RBTree<K extends Comparable<K>, V> extends BSTree<K, V> {
         if (!super.remove(key)) {
             return false;
         }
+        if(this.isEmpty()){
+            return true;
+        }
         // 被删除的是根结点
         if (removedP == null) {
             getRoot().setRbColor(RBColor.RB_BLACK);
